@@ -37,7 +37,7 @@ export const getAvailableReservations = (startDate: Date, finishDate: Date) => c
   getReservationReducerState,
   (state) => {
     return state.reservations.filter(reservation =>
-      (startDate <= reservation.departureDate && finishDate >= reservation.dateEntered)
+      (new Date(startDate) <= new Date(reservation.departureDate) && new Date(finishDate) >= new Date(reservation.dateEntered))
     );
   }
 );
