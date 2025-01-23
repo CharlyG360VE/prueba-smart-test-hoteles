@@ -19,7 +19,6 @@ import { MatDividerModule } from '@angular/material/divider';
 export class ReservationDetailDialogComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: IReservationDetailData[]) {
-    console.log(data)
   }
 
 }
