@@ -1,0 +1,49 @@
+<form [formGroup]="form">
+  <div class="d-flex w-100">
+    <div class="w-40 ml-2 mr-2">
+      <mat-form-field>
+        <mat-label>Introduce un rango de fecha </mat-label>
+        <mat-date-range-input [rangePicker]="picker" [min]="minDate">
+          <input matStartDate [formControl]="form.controls.startDate" placeholder="Ingreso" readonly>
+          <input matEndDate [formControl]="form.controls.finishDate" placeholder="Salida" readonly>
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+  
+    <div class="w-40 ml-2 mr-2">
+      <mat-form-field class="w-100" appearance="fill" color="primary">
+        <mat-label class="fs-14px">Cantidad de huespedes</mat-label>
+        <input  matInput
+                [formControl]="form.controls.numberPeople"
+                type="number"
+                min="1"
+                max="100"
+                autocomplete="off" />
+      </mat-form-field>
+    </div>
+  
+    <div class="w-10 ml-2 mr-2 mt-1">
+      <button mat-raised-button color="primary" class="custom-btn" [disabled]="form.invalid" (click)="searchHotelAvailable()">Filtrar</button>
+    </div>
+  </div>
+</form>
+
+@if(hotelList.length > 0) {
+  <div class="d-flex justify-center">
+    @for (hotel of hotelList; track hotel.id) {
+      <app-hotel-available-card [hotel]="hotel"
+                                [numberPeople]="form.controls.numberPeople.value!"
+                                [startDate]="form.controls.startDate.value!"
+                                [finishDate]="form.controls.finishDate.value!">
+      </app-hotel-available-card>
+    }
+  </div>
+} @else {
+  @if (executeSearch) {
+    <div class="border-card-info" [@fadeInOut]>
+      <p>Sin Resultados</p>
+    </div>
+  }
+}

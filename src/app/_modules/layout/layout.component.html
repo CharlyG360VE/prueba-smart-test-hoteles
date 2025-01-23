@@ -1,0 +1,19 @@
+<mat-toolbar color="primary" class="w-100">
+  <button mat-mini-fab class="mr-2" [routerLink]="['/']">
+    <mat-icon>home</mat-icon>
+  </button>
+
+  <p>
+    Prueba tecnica - Carlos Molero
+  </p>
+
+  <span class="example-spacer"></span>
+
+  <button mat-mini-fab (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<section class="h100-layout d-flex justify-center gray-color-3 flex-1">
+  <router-outlet />
+</section>

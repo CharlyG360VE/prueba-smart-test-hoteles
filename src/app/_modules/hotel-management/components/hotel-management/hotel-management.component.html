@@ -1,0 +1,27 @@
+<div class="d-flex justify-center mt-4 mb-4">
+  <h2 class="primary-color">
+    Gestión de hoteles
+  </h2>
+</div>
+
+<div class="d-flex justify-center items-center mt-4">
+  <button mat-raised-button color="primary" class="custom-btn" (click)="createHotel()">Crear hotel</button>
+  @if (hotelList.length > 0) {
+    <button mat-raised-button color="primary" class="custom-btn ml-3" (click)="createHotelRoom()">Crear habitación</button>
+  }
+</div>
+
+@if (hotelList.length > 0) {
+  <div class="d-flex justify-center items-center mt-4">
+    
+  </div>
+}
+
+<div class="d-flex justify-center">
+  @for (hotel of hotelList; track hotel.id) {
+    <app-hotel-management-card  [hotel]="hotel"
+                                (onEditHotel)="handlerHotelEdit($event)"
+                                (onEditHotelRoom)="handlerHotelRoomEdit($event)">
+    </app-hotel-management-card>
+  }
+</div>

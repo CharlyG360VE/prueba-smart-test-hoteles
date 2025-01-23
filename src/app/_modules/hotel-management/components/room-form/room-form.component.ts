@@ -1,0 +1,112 @@
+import { IHotel, IRoom } from '@/_ngrx/_interfaces/hotel-reducer.interface';
+import { ROOM_TYPE_LIST } from '@/hotel-management/data/parametrics.data';
+import { IRoomForm } from '@/hotel-management/interface/hotel-management.interface';
+import { Component, Inject, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { getRoomById } from '@/_ngrx/_selectors/hotel-reducer.selector';
+import { select, Store } from '@ngrx/store';
+import { first, Subscription } from 'rxjs';
+import { AppState } from '@/_ngrx/app.reducer';
+
+@Component({
+  selector: 'app-room-form',
+  imports: [
+    MatDialogModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule
+  ],
+  templateUrl: './room-form.component.html',
+  styleUrl: './room-form.component.scss'
+})
+export class RoomFormComponent {
+
+  private _store = inject(Store<AppState>);
+  private _fb = inject(FormBuilder);
+  private _snackBar = inject(MatSnackBar);
+  private _subscription$ = new Subscription();
+  private _room?: IRoom;
+
+  public hotelList: IHotel[] = [];
+  public roomTypeList = ROOM_TYPE_LIST;
+  public isEdit = false;
+  public form = this._fb.group<IRoomForm>(
+    {
+      hotel: this._fb.control(null, { validators: [Validators.required] }),
+      roomType: this._fb.control(null, { validators: [Validators.required] }),
+      price: this._fb.control(null, { validators: [Validators.required, Validators.minLength(1)] }),
+      tax: this._fb.control(19, { validators: [Validators.required, Validators.minLength(1)] })
+    }
+  );
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: { hotelList: IHotel[]; hotelId: number; id: number; },
+    private _dialogRef: MatDialogRef<RoomFormComponent>) { }
+
+  ngOnInit() {
+    this.hotelList = this.data.hotelList;
+
+    if (this.data.id > 0) {
+      this.isEdit = true;
+
+      this.getRoomById();
+    }
+  }
+
+  ngOnDestroy() {
+    this._subscription$.unsubscribe();
+  }
+
+  public save() {
+    if (this.form.invalid)
+      return;
+
+    const PAYLOAD: IRoom = {
+      id: this.data.id === 0 ? Math.round(Math.random() * 1000000) : this.data.id,
+      roomType: this.form.controls.roomType.value!,
+      roomTypeName: this.roomTypeList.find(x => x.id === this.form.controls.roomType.value)?.name!,
+      price: this.form.controls.price.value!,
+      tax: this.form.controls.tax.value!,
+      active: true
+    };
+
+    this._dialogRef.close({ isSave: true, room: PAYLOAD, hotelId: this.form.controls.hotel.value });
+    this._snackBar.open('Guardado exitoso.', 'Ok');
+  }
+
+  private getRoomById() {
+    const getRoomById$ = this._store.pipe(select(getRoomById(this.data.hotelId, this.data.id)));
+
+    this._subscription$.add(
+      getRoomById$
+        .pipe(
+          first()
+        )
+        .subscribe(
+          {
+            next: room => {
+              this._room = room;
+
+              this.form.setValue(
+                {
+                  hotel: this.data.hotelId,
+                  roomType: this._room?.roomType ?? null,
+                  price: this._room?.price ?? null,
+                  tax: this._room?.tax ?? null
+                }
+              );
+            }
+          }
+        )
+    );
+  }
+
+}

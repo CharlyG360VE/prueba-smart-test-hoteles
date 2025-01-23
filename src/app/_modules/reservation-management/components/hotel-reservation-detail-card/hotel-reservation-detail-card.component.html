@@ -1,0 +1,14 @@
+@if (reservation) {
+  <mat-card class="custom-card" [@fadeInOut]>
+    <mat-card-content [@fadeInOut]>
+      <p class="dark-color"><span><strong>Nombre del hotel: </strong></span>{{ reservation.hotelName| titlecase }}</p>
+      <p class="dark-color"><span><strong>Cantidad de reservaciones: </strong></span>{{ reservation.data.length }}</p>
+
+      <mat-card-actions class="justify-center">
+        <button mat-icon-button color="primary" class="pr-2" matTooltip="Ver reservaciones" (click)="openHotelReservation(reservation.data)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+}

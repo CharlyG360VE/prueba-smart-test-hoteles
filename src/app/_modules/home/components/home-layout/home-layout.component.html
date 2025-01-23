@@ -1,0 +1,12 @@
+<div class="container-action-btn">
+  @if (isAdminRole) {
+    <div class="d-flex justify-center items-center mt-4">
+      <button mat-raised-button color="primary" class="custom-btn" [routerLink]="['/gestion-hotel']">Gestión de hoteles</button>
+      <button mat-raised-button color="primary" class="custom-btn ml-3" [routerLink]="['/reservacion/detalle-reservaciones']">Detalle de reservaciones</button>
+    </div>
+  } @else {
+    <div class="d-flex justify-center items-center mt-4">
+      <button mat-raised-button color="primary" class="custom-btn" [routerLink]="['/reservacion']">Crear reservación</button>
+    </div>
+  }
+</div>

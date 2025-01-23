@@ -1,0 +1,73 @@
+@if (hotel) {
+  <mat-card class="custom-card" [@fadeInOut]>
+    <mat-card-content>
+      <div class="d-flex justify-center items-center">
+        <h2 class="dark-color">
+          {{ hotel.name | titlecase }}
+        </h2>
+      </div>
+    
+      <p class="dark-color"><span><strong>Activo: </strong></span>{{ hotel.active ? 'Si' : 'No' }}</p>
+      <p class="dark-color"><span><strong>Cantidad de habitaciones: </strong></span>{{ hotel.rooms.length }}</p>
+    </mat-card-content>
+  
+    <mat-card-actions class="justify-center">
+      @if (hotel.active) {
+        <button mat-icon-button color="primary" class="pr-2" matTooltip="Inactivar hotel" (click)="activeOrInactiveHotel(hotel.id, false)">
+          <mat-icon>toggle_off</mat-icon>
+        </button>
+      } @else {
+        <button mat-icon-button color="primary" class="pr-2" matTooltip="Activar hotel" (click)="activeOrInactiveHotel(hotel.id, true)">
+          <mat-icon>toggle_on</mat-icon>
+        </button>
+      }
+    
+      <button mat-icon-button color="primary" class="pr-2" matTooltip="Editar hotel" (click)="getHotelEdit(hotel.id)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    
+      @if (hotel.rooms.length > 0) {
+        <button mat-icon-button color="primary" class="pr-2" matTooltip="Ver habitaciones" (click)="viewHotelRooms(hotel.id, !hotel.viewRooms)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      }
+    </mat-card-actions>
+  
+    @if (hotel.viewRooms) {
+      <mat-card-content [@fadeInOut]>
+        <div class="d-flex justify-center items-center">
+          <h3 class="dark-color">
+            {{ 'Habitaciones' | titlecase }}
+          </h3>
+        </div>
+      
+        @for (room of hotel.rooms; let i = $index; track room.id) {
+          <p class="dark-color"><span><strong>Activo: </strong></span>{{ room.active ? 'Si' : 'No' }}</p>
+          <p class="dark-color"><span><strong>Tipo de habitación: </strong></span>{{ room.roomTypeName }}</p>
+          <p class="dark-color"><span><strong>Precio: </strong></span>{{ room.price | currency: '$':'symbol-narrow':'.0-0' }}</p>
+          <p class="dark-color"><span><strong>Impuesto: </strong></span>{{ room.tax }}%</p>
+        
+          <mat-card-actions class="justify-center">
+            @if (room.active) {
+              <button mat-icon-button color="primary" class="pr-2" matTooltip="Inactivar habitación" (click)="activeOrInactiveHotelRoom(hotel.id, room.id, false)">
+                <mat-icon>toggle_off</mat-icon>
+              </button>
+            } @else {
+              <button mat-icon-button color="primary" class="pr-2" matTooltip="Activar habitación" (click)="activeOrInactiveHotelRoom(hotel.id, room.id, true)">
+                <mat-icon>toggle_on</mat-icon>
+              </button>
+            }
+          
+            <button mat-icon-button color="primary" class="pr-2" matTooltip="Editar habitación" (click)="getHotelRoomEdit(hotel.id, room.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </mat-card-actions>
+        
+          @if (i !== hotel.rooms.length - 1) {
+            <mat-divider></mat-divider>
+          }
+        }
+      </mat-card-content>
+    }
+  </mat-card>
+}

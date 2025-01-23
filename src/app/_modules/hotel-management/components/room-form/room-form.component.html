@@ -1,0 +1,59 @@
+<mat-dialog-content>
+  <div class="d-flex justify-center mt-4 mb-4">
+    <h2 class="primary-color">
+      {{ isEdit ? 'Editar' : 'Crear' }} habitación
+    </h2>
+  </div>
+
+  <div class="p-8 mb-4">
+    <form [formGroup]="form">
+      <mat-form-field class="w-100" appearance="fill" color="primary">
+        <mat-label>Hotel</mat-label>
+        <mat-select [formControl]="form.controls.hotel">
+          @for (hotel of hotelList; track hotel.id) {
+            <mat-option [value]="hotel.id">{{ hotel.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="w-100" appearance="fill" color="primary">
+        <mat-label>Tipo de habitación</mat-label>
+        <mat-select [formControl]="form.controls.roomType">
+          @for (room of roomTypeList; track room.id) {
+            <mat-option [value]="room.id">{{ room.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="w-100" appearance="fill" color="primary">
+          <mat-label class="fs-14px">Precio de la habitación</mat-label>
+          <input  matInput
+                  [formControl]="form.controls.price"
+                  type="number"
+                  min="1"
+                  autocomplete="off" />
+      </mat-form-field>
+
+      <mat-form-field class="w-100" appearance="fill" color="primary">
+        <mat-label class="fs-14px">Impuesto de la habitación</mat-label>
+        <input  matInput
+                [formControl]="form.controls.tax"
+                type="number"
+                min="1"
+                max="100"
+                autocomplete="off" />
+      </mat-form-field>
+    </form>
+</div>
+
+  <div class="d-flex justify-center">
+      <div class="d-flex justify-center">
+          <div class="d-flex justify-center pr-2">
+              <button mat-raised-button color="primary" class="custom-btn" [disabled]="form.invalid" (click)="save()">Guardar</button>
+          </div>
+          <div class="d-flex justify-center pl-2">
+              <button mat-raised-button color="warn" class="custom-btn" [mat-dialog-close]="{ isSave: false }">Cancelar</button>
+          </div>
+      </div>
+  </div>
+</mat-dialog-content>

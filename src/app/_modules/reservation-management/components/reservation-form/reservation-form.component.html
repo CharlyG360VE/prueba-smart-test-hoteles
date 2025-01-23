@@ -1,0 +1,136 @@
+<div class="d-flex justify-center mt-4 mb-4">
+  <h2 class="primary-color">
+    Crear reservación
+  </h2>
+</div>
+
+<form [formGroup]="form">
+  <div class="border-card" [@fadeInOut]>
+    <div class="d-flex justify-center">
+      <h4 class="primary-color">
+        Contacto de emergencia
+      </h4>
+    </div>
+
+    <div class="d-flex justify-center">
+      <mat-form-field class="p-3" appearance="fill" color="primary">
+        <mat-label class="fs-14px">Nombres</mat-label>
+        <input  matInput
+                [formControl]="form.controls.firstName"
+                type="text"
+                autocomplete="off" />
+      </mat-form-field>
+  
+      <mat-form-field class="p-3" appearance="fill" color="primary">
+        <mat-label class="fs-14px">Apellidos</mat-label>
+        <input  matInput
+                [formControl]="form.controls.lastName"
+                type="text"
+                autocomplete="off" />
+      </mat-form-field>
+  
+      <mat-form-field class="p-3" appearance="fill" color="primary">
+        <mat-label class="fs-14px">Número de contacto</mat-label>
+        <input  matInput
+                [formControl]="form.controls.contactNumber"
+                type="number"
+                min="1"
+                autocomplete="off" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  @if (guests.length > 0) {
+    <div class="d-flex justify-center mt-4 mb-4">
+      <h3 class="primary-color">
+        Huespedes
+      </h3>
+    </div>
+
+    @for (guestFg of guests.controls; track $index) {
+      <div class="border-card mt-4 mb-4" [@fadeInOut]>
+        <div class="d-flex justify-center">
+          <h4 class="primary-color">
+            Huesped {{$index + 1}}
+          </h4>
+        </div>
+
+        <div class="d-flex flex-wrap">
+          <mat-form-field class="p-3 min-width-15em" appearance="fill" color="primary">
+            <mat-label class="fs-14px">Nombres</mat-label>
+            <input  matInput
+                    [formControl]="guestFg.controls.firstName"
+                    type="text"
+                    autocomplete="off" />
+          </mat-form-field>
+  
+          <mat-form-field class="p-3 min-width-15em" appearance="fill" color="primary">
+            <mat-label class="fs-14px">Apellidos</mat-label>
+            <input  matInput
+                    [formControl]="guestFg.controls.lastName"
+                    type="text"
+                    autocomplete="off" />
+          </mat-form-field>
+  
+          <mat-form-field class="p-3 min-width-15em" appearance="fill" color="primary">
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input matInput [max]="maxDate" [formControl]="guestFg.controls.birthDate" [matDatepicker]="picker" readonly />
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="d-flex flex-wrap">
+          <mat-form-field class="p-3 min-width-15em" appearance="fill" color="primary">
+            <mat-label>Genero</mat-label>
+            <mat-select [formControl]="guestFg.controls.gender">
+              @for (gender of genderList; track gender.id) {
+                <mat-option [value]="gender.id">{{ gender.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="p-3 min-width-15em" appearance="fill" color="primary">
+            <mat-label>Tipo de documento</mat-label>
+            <mat-select [formControl]="guestFg.controls.documentType">
+              @for (documentType of documentTypeList; track documentType.id) {
+                <mat-option [value]="documentType.id">{{ documentType.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="p-3 min-width-15em" appearance="fill" color="primary">
+            <mat-label class="fs-14px">Número de documento</mat-label>
+            <input  matInput
+                    [formControl]="guestFg.controls.documentNumber"
+                    type="text"
+                    autocomplete="off" />
+          </mat-form-field>
+        </div>
+
+        <div class="d-flex flex-wrap">
+          <mat-form-field class="p-3 min-width-15em" appearance="fill" color="primary">
+            <mat-label class="fs-14px">Correo electronico</mat-label>
+            <input  matInput
+                    [formControl]="guestFg.controls.email"
+                    type="email"
+                    autocomplete="off" />
+          </mat-form-field>
+
+          <mat-form-field class="p-3 min-width-15em" appearance="fill" color="primary">
+            <mat-label class="fs-14px">Número de contacto</mat-label>
+            <input  matInput
+                    [formControl]="guestFg.controls.contactNumber"
+                    type="email"
+                    autocomplete="off" />
+          </mat-form-field>
+        </div>
+      </div>
+    }
+  }
+</form>
+
+<div class="d-flex justify-center items-center p-4">
+  <button mat-raised-button color="primary" class="custom-btn" [disabled]="form.invalid" (click)="save()">Guardar</button>
+  <button mat-raised-button color="primary" class="custom-btn ml-3" (click)="cancel()">Cancelar</button>
+</div>
