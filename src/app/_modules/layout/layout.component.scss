@@ -1,10 +1,83 @@
-.example-spacer {
-    flex: 1 1 auto;
+:host * {
+  transition: all 400ms ease-in-out;
 }
 
-.flex-1 {
-    flex: 1 0 auto;
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
+mat-toolbar {
+  background: #fff;
+  color: #868383;
+  position: relative;
+  z-index: 5;
+}
+
+mat-sidenav {
+  border-right: none;
+  background: var(--mainColor);
+  color: white;
+  border-radius: 0px 4px 4px 0px;
+  padding: 16px;
+  text-align: center;
+}
+
+mat-sidenav-container {
+  height: 100vh;
+}
+
+.h100 {
+  max-height: 100vh;
+  min-height: 100vh;
+}
+
+.sidenav-header {
+  padding-top: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  >img {
+    border-radius: 100%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+
+  .header-text {
+    height: 3rem;
+
+    >h2 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+
+    >p {
+      margin: 0;
+      font-size: 0.7rem;
+    }
+  }
+}
+
+.hide-header-text {
+  opacity: 0;
+  height: 0 !important;
+}
+
+.menu-item {
+  border-left: 5px solid;
+  border-left-color: rgb(0, 0, 0, 0);
+}
+
+.selected-menu-item {
+  border-left: 5px solid;
+  border-left-color: transparent;
+}
+
+mat-sidenav,
+mat-sidenav-content {
+  transition: all 400ms ease-in-out;
+}
+
+mat-divider {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  background-color: rgba(255, 255, 255, 0.5);
 }

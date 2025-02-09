@@ -7,12 +7,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { getRoomById } from '@/_ngrx/_selectors/hotel-reducer.selector';
 import { select, Store } from '@ngrx/store';
 import { first, Subscription } from 'rxjs';
 import { AppState } from '@/_ngrx/app.reducer';
+import { DialogService } from '@/_services/dialog.service';
 
 @Component({
   selector: 'app-room-form',
@@ -29,10 +29,10 @@ import { AppState } from '@/_ngrx/app.reducer';
 })
 export class RoomFormComponent {
 
-  private _store = inject(Store<AppState>);
-  private _fb = inject(FormBuilder);
-  private _snackBar = inject(MatSnackBar);
-  private _subscription$ = new Subscription();
+  private readonly _store = inject(Store<AppState>);
+  private readonly _fb = inject(FormBuilder);
+  private readonly _dialogSvc = inject(DialogService);
+  private readonly _subscription$ = new Subscription();
   private _room?: IRoom;
 
   public hotelList: IHotel[] = [];
@@ -48,8 +48,8 @@ export class RoomFormComponent {
   );
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { hotelList: IHotel[]; hotelId: number; id: number; },
-    private _dialogRef: MatDialogRef<RoomFormComponent>) { }
+    @Inject(MAT_DIALOG_DATA) private readonly data: { hotelList: IHotel[]; hotelId: number; id: number; },
+    private readonly _dialogRef: MatDialogRef<RoomFormComponent>) { }
 
   ngOnInit() {
     this.hotelList = this.data.hotelList;
@@ -79,7 +79,7 @@ export class RoomFormComponent {
     };
 
     this._dialogRef.close({ isSave: true, room: PAYLOAD, hotelId: this.form.controls.hotel.value });
-    this._snackBar.open('Guardado exitoso.', 'Ok');
+    this._dialogSvc.alertDialog('', 'Guardado exitoso.');
   }
 
   private getRoomById() {

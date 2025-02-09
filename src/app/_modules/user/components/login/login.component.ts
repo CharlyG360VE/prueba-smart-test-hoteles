@@ -8,8 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { ILoginForm } from '../../interface/login-form.interface';
 import { LoginService } from '../../services/login.service';
 import { IPayloadLogin } from '../../interface/user.interface';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { DialogService } from '@/_services/dialog.service';
 
 @Component({
   selector: 'app-login',
@@ -20,18 +20,17 @@ import { Router } from '@angular/router';
     MatProgressBarModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule,
-    MatSnackBarModule
+    MatInputModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export default class LoginComponent {
 
-  private _fb = inject(NonNullableFormBuilder);
-  private _loginSvc = inject(LoginService);
-  private _snackBar = inject(MatSnackBar);
-  private _router = inject(Router);
+  private readonly _fb = inject(NonNullableFormBuilder);
+  private readonly _dialogSvc = inject(DialogService);
+  private readonly _loginSvc = inject(LoginService);
+  private readonly _router = inject(Router);
 
   form = this._fb.group<ILoginForm>(
     {
@@ -70,10 +69,10 @@ export default class LoginComponent {
     const RESPONSE = this._loginSvc.login(PAYLOAD)
 
     if (RESPONSE) {
-      this._snackBar.open('Inicio de sesión exitoso.', 'Ok');
+      this._dialogSvc.alertDialog('', 'Inicio de sesión exitoso.');
       this._router.navigate(['/'])
     } else {
-      this._snackBar.open('Correo y/o contraseña invalida.', 'Ok');
+      this._dialogSvc.alertDialog('', 'Correo y/o contraseña invalida.');
     }
   }
 

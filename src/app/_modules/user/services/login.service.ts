@@ -7,7 +7,7 @@ import { IPayloadLogin, IUser } from '../interface/user.interface';
 })
 export class LoginService {
 
-  private _dataSvc = inject(DataService)
+  private readonly _dataSvc = inject(DataService)
 
   private get users() {
     return this._dataSvc.data?.users
