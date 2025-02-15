@@ -61,15 +61,24 @@ export const getHotelAvailableFilter = (props: IFilterProps) => createSelector(
               hotelRooms.push(room);
           })
         } else {
-          if (hotel.active)
-            hotelTempList.push(hotel);
+          const roomFilter = hotel.rooms.filter(room => room.active && props.numberPeople <= room.maxguest);
+
+          if (hotel.active && roomFilter.length > 0)
+            hotelTempList.push(
+              {
+                ...hotel,
+                rooms: roomFilter
+              }
+            );
         }
+
+        console.log(hotel, hotelRooms.filter(room => room.active && props.numberPeople <= room.maxguest))
 
         if (hotelRooms.length > 0 && hotel.active)
           hotelTempList.push(
             {
               ...hotel,
-              rooms: hotelRooms
+              rooms: hotelRooms.filter(room => room.active && props.numberPeople <= room.maxguest)
             }
           );
       })
@@ -79,13 +88,13 @@ export const getHotelAvailableFilter = (props: IFilterProps) => createSelector(
       hotelTempList :
       [
         ...hotelList.filter(hotel => hotel.active)
-            .map(hotel => (
-              {
-                ...hotel,
-                rooms: hotel.rooms.filter(room => room.active && props.numberPeople <= room.maxguest)
-              }
-            ))
-            .filter(hotel => hotel.rooms.length > 0)
+          .map(hotel => (
+            {
+              ...hotel,
+              rooms: hotel.rooms.filter(room => room.active && props.numberPeople <= room.maxguest)
+            }
+          ))
+          .filter(hotel => hotel.rooms.length > 0)
       ];
   }
 );

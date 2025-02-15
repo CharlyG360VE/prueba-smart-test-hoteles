@@ -12,26 +12,26 @@
             }
     
             @if (data.confirmBtn) {
-                <div class="d-flex justify-center mt-3">
-                    <div class="d-flex justify-center pr-2 animatedOpacity">
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="d-flex justify-content-center pe-2 animatedOpacity">
                         <button class="btn-round" mat-raised-button color="primary" type="button" [mat-dialog-close]="true" style="min-width: 80px;">
                             {{data.textConfirmBtn}}
                         </button>
                     </div>
-                    <div class="d-flex justify-center pl-2 animatedOpacity">
+                    <div class="d-flex justify-content-center ps-2 animatedOpacity">
                         <button class="btn-round" mat-raised-button color="warn" type="button" [mat-dialog-close]="false" style="min-width: 80px;">
                             {{data.textCancelBtn}}
                         </button>
                     </div>
                 </div>
             } @else {
-                <div class="d-flex justify-center w-100">
+                <div class="d-flex justify-content-center w-100">
                     <mat-icon class="material-icons-round check-size animatedOpacity" color="primary">
                         task_alt
                     </mat-icon>
                 </div>
-                <div class="d-flex justify-center mt-3 animatedOpacity">
-                  <button mat-raised-button color="primary" class="custom-btn ml-3" [mat-dialog-close]="true">{{ data.textNotConfirmBtn }}</button>
+                <div class="d-flex justify-content-center mt-3 animatedOpacity">
+                  <button mat-raised-button color="primary" class="custom-btn ms-3" [mat-dialog-close]="true">{{ data.textNotConfirmBtn }}</button>
                 </div>
             }
         </section>

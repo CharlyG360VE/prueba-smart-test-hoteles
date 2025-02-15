@@ -1,7 +1,7 @@
 <div class="container">
   <form [formGroup]="form">
-    <div class="d-flex justify-center w-100 mt-4 mb-4">
-      <div class="ml-2 mr-2">
+    <div class="row justify-content-center align-items-center flex-wrap w-100 my-4">
+      <div class="col-md-3">
         <mat-form-field>
           <mat-label>Introduce un rango de fecha </mat-label>
           <mat-date-range-input [rangePicker]="picker" [min]="minDate">
@@ -13,7 +13,7 @@
         </mat-form-field>
       </div>
     
-      <div class="ml-2 mr-2">
+      <div class="col-md-3">
         <mat-form-field class="w-100" appearance="fill" color="primary">
           <mat-label class="fs-14px">Cantidad de huespedes</mat-label>
           <input  matInput
@@ -25,7 +25,7 @@
         </mat-form-field>
       </div>
 
-      <div class="ml-2 mr-2">
+      <div class="col-md-3">
         <mat-form-field class="w-100" appearance="fill" color="primary">
           <mat-label>Ciudad</mat-label>
           <mat-select [formControl]="form.controls.cityId">
@@ -36,27 +36,29 @@
         </mat-form-field>
       </div>
     
-      <div class="w-10 ml-2 mr-2 mt-1">
+      <div class="col-md-1">
         <button mat-raised-button color="primary" class="custom-btn" [disabled]="form.invalid" (click)="searchHotelAvailable()">Filtrar</button>
       </div>
     </div>
   </form>
   
   @if(hotelList.length > 0) {
-    <div class="d-flex justify-center">
+    <div class="row justify-content-center flex-wrap">
       @for (hotel of hotelList; track $index) {
-        <app-hotel-available-card [hotel]="hotel"
-                                  [numberPeople]="form.controls.numberPeople.value!"
-                                  [startDate]="form.controls.startDate.value!"
-                                  [finishDate]="form.controls.finishDate.value!">
-        </app-hotel-available-card>
+        <div class="col-md-4">
+          <app-hotel-available-card [hotel]="hotel"
+                                    [numberPeople]="form.controls.numberPeople.value!"
+                                    [startDate]="form.controls.startDate.value!"
+                                    [finishDate]="form.controls.finishDate.value!">
+          </app-hotel-available-card>
+        </div>
       }
     </div>
   } @else {
     @if (executeSearch) {
-      <div class="d-flex justify-center mt-4 mb-4">
+      <div class="d-flex justify-content-center mt-4 mb-4">
         <div class="border-card-info" [@fadeInOut]>
-          <p>Sin Resultados</p>
+          <p class="pt-3">Sin Resultados</p>
         </div>
       </div>
     }

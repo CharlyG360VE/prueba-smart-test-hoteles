@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReservationDetailDialogComponent } from '../reservation-detail-dialog/reservation-detail-dialog.component';
 import { eMagicNumbers } from '@/_enums/magic-numbers.enum';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-hotel-reservation-detail-card',
@@ -39,7 +38,7 @@ export class HotelReservationDetailCardComponent {
 
   @Input({ required: true }) reservation!: IReservationDetail;
 
-  private _dialog = inject(MatDialog);
+  private readonly _dialog = inject(MatDialog);
 
   public openHotelReservation(data: IReservationDetailData[]) {
     this._dialog.open(ReservationDetailDialogComponent, {

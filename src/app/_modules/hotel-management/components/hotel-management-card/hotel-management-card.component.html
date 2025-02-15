@@ -1,7 +1,7 @@
 @if (hotel) {
   <mat-card class="custom-card" [@fadeInOut]>
     <mat-card-content>
-      <div class="d-flex justify-center items-center">
+      <div class="d-flex justify-content-center items-center">
         <h2 class="dark-color">
           {{ hotel.name | titlecase }}
         </h2>
@@ -12,23 +12,23 @@
       <p class="dark-color"><span><strong>Cantidad de habitaciones: </strong></span>{{ hotel.rooms.length }}</p>
     </mat-card-content>
   
-    <mat-card-actions class="justify-center">
+    <mat-card-actions class="justify-content-center">
       @if (hotel.active) {
-        <button mat-icon-button color="primary" class="pr-2" matTooltip="Inactivar hotel" (click)="activeOrInactiveHotel(hotel.id, false)">
+        <button mat-icon-button color="primary" class="pe-2" matTooltip="Inactivar hotel" (click)="activeOrInactiveHotel(hotel.id, false)">
           <mat-icon>toggle_off</mat-icon>
         </button>
       } @else {
-        <button mat-icon-button color="primary" class="pr-2" matTooltip="Activar hotel" (click)="activeOrInactiveHotel(hotel.id, true)">
+        <button mat-icon-button color="primary" class="pe-2" matTooltip="Activar hotel" (click)="activeOrInactiveHotel(hotel.id, true)">
           <mat-icon>toggle_on</mat-icon>
         </button>
       }
     
-      <button mat-icon-button color="primary" class="pr-2" matTooltip="Editar hotel" (click)="getHotelEdit(hotel.id)">
+      <button mat-icon-button color="primary" class="pe-2" matTooltip="Editar hotel" (click)="getHotelEdit(hotel.id)">
         <mat-icon>edit</mat-icon>
       </button>
     
       @if (hotel.rooms.length > 0) {
-        <button mat-icon-button color="primary" class="pr-2" matTooltip="Ver habitaciones" (click)="viewHotelRooms(hotel.id, !hotel.viewRooms)">
+        <button mat-icon-button color="primary" class="pe-2" matTooltip="Ver habitaciones" (click)="viewHotelRooms(hotel.id, !hotel.viewRooms)">
           <mat-icon>visibility</mat-icon>
         </button>
       }
@@ -36,7 +36,7 @@
   
     @if (hotel.viewRooms) {
       <mat-card-content [@fadeInOut]>
-        <div class="d-flex justify-center items-center">
+        <div class="d-flex justify-content-center items-center">
           <h3 class="dark-color">
             {{ 'Habitaciones' | titlecase }}
           </h3>
@@ -50,24 +50,24 @@
           <p class="dark-color"><span><strong>Impuesto: </strong></span>{{ room.tax }}%</p>
           <p class="dark-color"><span><strong>Precio con impuestos: </strong></span>{{ room.priceWithTax | currency: '$':'symbol-narrow':'.0-0' }}</p>
         
-          <mat-card-actions class="justify-center">
+          <mat-card-actions class="justify-content-center">
             @if (room.active) {
-              <button mat-icon-button color="primary" class="pr-2" matTooltip="Inactivar habitación" (click)="activeOrInactiveHotelRoom(hotel.id, room.id, false)">
+              <button mat-icon-button color="primary" class="pe-2" matTooltip="Inactivar habitación" (click)="activeOrInactiveHotelRoom(hotel.id, room.id, false)">
                 <mat-icon>toggle_off</mat-icon>
               </button>
             } @else {
-              <button mat-icon-button color="primary" class="pr-2" matTooltip="Activar habitación" (click)="activeOrInactiveHotelRoom(hotel.id, room.id, true)">
+              <button mat-icon-button color="primary" class="pe-2" matTooltip="Activar habitación" (click)="activeOrInactiveHotelRoom(hotel.id, room.id, true)">
                 <mat-icon>toggle_on</mat-icon>
               </button>
             }
           
-            <button mat-icon-button color="primary" class="pr-2" matTooltip="Editar habitación" (click)="getHotelRoomEdit(hotel.id, room.id)">
+            <button mat-icon-button color="primary" class="pe-2" matTooltip="Editar habitación" (click)="getHotelRoomEdit(hotel.id, room.id)">
               <mat-icon>edit</mat-icon>
             </button>
           </mat-card-actions>
         
           @if (i !== hotel.rooms.length - 1) {
-            <mat-divider></mat-divider>
+            <mat-divider class="my-4"></mat-divider>
           }
         }
       </mat-card-content>

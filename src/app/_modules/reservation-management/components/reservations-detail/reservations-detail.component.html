@@ -1,20 +1,22 @@
 <div class="container">
-  <div class="d-flex justify-center mt-4 mb-4">
+  <div class="d-flex justify-content-center mt-4 mb-4">
     <h2 class="primary-color">
       Detalle de las reservaciones
     </h2>
   </div>
   
   @if (reservationDetailList.length > 0) {
-    @for (reservation of reservationDetailList; track reservation.hotelName) {
-      <div class="d-flex justify-center">
-        <app-hotel-reservation-detail-card [reservation]="reservation"></app-hotel-reservation-detail-card>
-      </div>
-    }
+    <div class="row justify-content-center">
+      @for (reservation of reservationDetailList; track reservation.hotelName) {
+        <div class="col-md-4">
+          <app-hotel-reservation-detail-card [reservation]="reservation"></app-hotel-reservation-detail-card>
+        </div>
+      }
+    </div>
   } @else {
-    <div class="d-flex justify-center mt-4 mb-4">
+    <div class="d-flex justify-content-center mt-4 mb-4">
       <div class="border-card-info" [@fadeInOut]>
-        <p>Sin reservaciones</p>
+        <p class="pt-3">Sin reservaciones</p>
       </div>
     </div>
   }

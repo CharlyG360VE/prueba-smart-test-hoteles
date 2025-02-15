@@ -88,6 +88,7 @@ export class FilterReservationComponent {
                 this.hotelList = [...hotelList.map(hotel => (
                   {
                     ...hotel,
+                    viewRooms: false,
                     rooms: [...hotel.rooms]
                   }
                 ))];
