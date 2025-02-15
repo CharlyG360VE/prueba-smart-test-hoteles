@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { IReservationInitialState } from "../_interfaces/reservation-reducer.interface";
-import { getHotelList } from "./hotel-reducer.selector";
+import { IFilterProps, IReservationInitialState } from "../_interfaces/reservation-reducer.interface";
+import { getHotelList, getHotelListByCityId } from "./hotel-reducer.selector";
 import { IHotel, IRoom } from "../_interfaces/hotel-reducer.interface";
 import { DOCUMENT_TYPES_LIST, GENDER_LIST } from "@/reservation-management/data/parametric.data";
 
@@ -42,9 +42,9 @@ export const getAvailableReservations = (startDate: Date, finishDate: Date) => c
   }
 );
 
-export const getHotelAvailableFilter = (startDate: Date, finishDate: Date) => createSelector(
-  getAvailableReservations(startDate, finishDate),
-  getHotelList,
+export const getHotelAvailableFilter = (props: IFilterProps) => createSelector(
+  getAvailableReservations(props.startDate, props.finishDate),
+  getHotelListByCityId(props.cityId),
   (reservationFilter, hotelList) => {
     const hotelTempList: IHotel[] = [];
 
@@ -57,7 +57,7 @@ export const getHotelAvailableFilter = (startDate: Date, finishDate: Date) => cr
           hotel.rooms.forEach(room => {
             const hotelReservationFind = hotelReservation.find(hr => hr.roomId === room.id);
 
-            if (!hotelReservationFind && room.active)
+            if (!hotelReservationFind && room.active && props.numberPeople <= room.maxguest)
               hotelRooms.push(room);
           })
         } else {
@@ -82,9 +82,10 @@ export const getHotelAvailableFilter = (startDate: Date, finishDate: Date) => cr
             .map(hotel => (
               {
                 ...hotel,
-                rooms: hotel.rooms.filter(room => room.active)
+                rooms: hotel.rooms.filter(room => room.active && props.numberPeople <= room.maxguest)
               }
             ))
+            .filter(hotel => hotel.rooms.length > 0)
       ];
   }
 );

@@ -17,7 +17,7 @@ const _hotelReducer = createReducer<IHotelInitialState, Action>(
   on(action.editHotel, (state, { hotel }) => (
     {
       ...state,
-      hotels: state.hotels.map(item => (item.id === hotel.id ? { ...hotel } : hotel))
+      hotels: state.hotels.map(item => (item.id === hotel.id ? { ...hotel } : item))
     }
   )),
   on(action.activeOrInactiveHotel, (state, { hotelId, active }) => (

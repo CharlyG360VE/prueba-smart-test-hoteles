@@ -43,13 +43,14 @@ import { Store } from '@ngrx/store';
 })
 export default class ReservationFormComponent {
 
-  private _store = inject(Store<AppState>);
-  private _fb = inject(FormBuilder);
+  private readonly _store = inject(Store<AppState>);
+  private readonly _fb = inject(FormBuilder);
+  private readonly _router = inject(Router);
+  private readonly _activatedRoute = inject(ActivatedRoute);
+
   private _reservationData?: IReservationData;
-  private _router = inject(Router);
-  private _activatedRoute = inject(ActivatedRoute);
-  private _hotelId = 0;
-  private _roomId = 0;
+  private _hotelId = '';
+  private _roomId = '';
 
   public maxDate = new Date();
   public genderList = GENDER_LIST;
@@ -111,8 +112,8 @@ export default class ReservationFormComponent {
   }
 
   private getParametricId() {
-    this._hotelId =  Number(this._activatedRoute.snapshot.paramMap.get('hotelId') ?? 0);
-    this._roomId =  Number(this._activatedRoute.snapshot.paramMap.get('roomId') ?? 0);
+    this._hotelId =  this._activatedRoute.snapshot.paramMap.get('hotelId') ?? '';
+    this._roomId =  this._activatedRoute.snapshot.paramMap.get('roomId') ?? '';
   }
 
   private getReservationData() {

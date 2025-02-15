@@ -23,9 +23,9 @@ import { IHotel } from '@/_ngrx/_interfaces/hotel-reducer.interface';
 })
 export default class HotelManagementComponent {
 
-  private _store = inject(Store<AppState>);
-  private subscription$ = new Subscription();
-  private _dialog = inject(MatDialog);
+  private readonly _store = inject(Store<AppState>);
+  private readonly subscription$ = new Subscription();
+  private readonly _dialog = inject(MatDialog);
 
   public getHotelList$ = this._store.pipe(select(getHotelList));
   public hotelList: IHotel[] = [];
@@ -42,7 +42,7 @@ export default class HotelManagementComponent {
     this.openHotelForm();
   }
 
-  public handlerHotelEdit(id: number) {
+  public handlerHotelEdit(id: string) {
     this.openHotelForm(id);
   }
 
@@ -50,7 +50,7 @@ export default class HotelManagementComponent {
     this.openRoomForm();
   }
 
-  public handlerHotelRoomEdit({ hotelId, roomId }: { hotelId: number, roomId: number }) {
+  public handlerHotelRoomEdit({ hotelId, roomId }: { hotelId: string, roomId: string }) {
     this.openRoomForm(hotelId, roomId);
   }
 
@@ -64,7 +64,7 @@ export default class HotelManagementComponent {
     );
   }
 
-  private openRoomForm(hotelId = eMagicNumbers.N_0, id = eMagicNumbers.N_0) {
+  private openRoomForm(hotelId = '', id = '') {
     const DIALOG_REF = this._dialog.open(RoomFormComponent, {
       minWidth: '50vw',
       maxWidth: '80vw',
@@ -87,7 +87,7 @@ export default class HotelManagementComponent {
           {
             next: ({ isSave, room, hotelId }) => {
               if (isSave)
-                if (id > 0)
+                if (id.length > 0)
                   this._store.dispatch(editHotelRoom({ hotelId, room }));
                 else
                 this._store.dispatch(addHotelRoom({ hotelId, room }));
@@ -99,7 +99,7 @@ export default class HotelManagementComponent {
     )
   }
 
-  private openHotelForm(id = eMagicNumbers.N_0) {
+  private openHotelForm(id = '') {
     const DIALOG_REF = this._dialog.open(HotelManagementFormComponent, {
       minWidth: '50vw',
       maxWidth: '80vw',
@@ -117,7 +117,7 @@ export default class HotelManagementComponent {
           {
             next: ({ isSave, hotel }) => {
               if (isSave)
-                if (id > 0)
+                if (id.length > 0)
                   this._store.dispatch(editHotel({ hotel }));
                 else
                   this._store.dispatch(addHotel({ hotel }));

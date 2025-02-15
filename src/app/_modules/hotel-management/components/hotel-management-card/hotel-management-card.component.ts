@@ -37,28 +37,28 @@ import { IHotel } from '@/_ngrx/_interfaces/hotel-reducer.interface';
 export class HotelManagementCardComponent {
 
   @Input({ required: true }) hotel!: IHotel;
-  @Output() onEditHotel = new EventEmitter<number>();
-  @Output() onEditHotelRoom = new EventEmitter<{ hotelId: number; roomId: number; }>();
+  @Output() onEditHotel = new EventEmitter<string>();
+  @Output() onEditHotelRoom = new EventEmitter<{ hotelId: string; roomId: string; }>();
 
-  private _store = inject(Store<AppState>);
+  private readonly _store = inject(Store<AppState>);
 
-  public getHotelEdit(id: number) {
+  public getHotelEdit(id: string) {
     this.onEditHotel.emit(id);
   }
 
-  public getHotelRoomEdit(hotelId: number, roomId: number) {
+  public getHotelRoomEdit(hotelId: string, roomId: string) {
     this.onEditHotelRoom.emit({ hotelId, roomId });
   }
 
-  public activeOrInactiveHotel(hotelId: number, active: boolean) {
+  public activeOrInactiveHotel(hotelId: string, active: boolean) {
     this._store.dispatch(activeOrInactiveHotel({ hotelId, active }));
   }
 
-  public viewHotelRooms(hotelId: number, viewRooms: boolean) {
+  public viewHotelRooms(hotelId: string, viewRooms: boolean) {
     this._store.dispatch(viewHotelRooms({ hotelId, viewRooms }));
   }
 
-  public activeOrInactiveHotelRoom(hotelId: number, roomId: number, active: boolean) {
+  public activeOrInactiveHotelRoom(hotelId: string, roomId: string, active: boolean) {
     this._store.dispatch(activeOrInactiveHotelRoom({ hotelId, roomId, active }));
   }
 

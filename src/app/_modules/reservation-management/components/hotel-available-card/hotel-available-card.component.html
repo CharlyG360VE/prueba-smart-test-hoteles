@@ -24,9 +24,11 @@
           </h3>
         </div>
   
-        @for (room of hotelTemp.rooms; let i = $index; track room.id) {
+        @for (room of hotelTemp.rooms; let i = $index; track i) {
           <p class="dark-color"><span><strong>Tipo de habitación: </strong></span>{{ room.roomTypeName }}</p>
           <p class="dark-color"><span><strong>Precio: </strong></span>{{ room.price | currency: '$':'symbol-narrow':'.0-0' }}</p>
+          <p class="dark-color"><span><strong>Impuesto: </strong></span>{{ room.tax }}%</p>
+          <p class="dark-color"><span><strong>Precio con impuestos: </strong></span>{{ room.priceWithTax| currency: '$':'symbol-narrow':'.0-0' }}</p>
         
           <mat-card-actions class="justify-center mb-4">
             <button mat-raised-button color="primary" class="custom-btn" (click)="reservationCreate(room.id)">Reservar habitación</button>

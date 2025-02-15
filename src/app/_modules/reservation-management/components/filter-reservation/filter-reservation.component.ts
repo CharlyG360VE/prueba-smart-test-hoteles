@@ -13,6 +13,9 @@ import { Subscription, take } from 'rxjs';
 import { HotelAvailableCardComponent } from "../hotel-available-card/hotel-available-card.component";
 import { IHotel } from '@/_ngrx/_interfaces/hotel-reducer.interface';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatSelectModule } from '@angular/material/select';
+import { CITIES_LIST } from '@/_data/cities.data';
+import { IFilterProps } from '@/_ngrx/_interfaces/reservation-reducer.interface';
 
 @Component({
   selector: 'app-filter-reservation',
@@ -22,7 +25,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    HotelAvailableCardComponent
+    HotelAvailableCardComponent,
+    MatSelectModule
   ],
   templateUrl: './filter-reservation.component.html',
   providers: [provideNativeDateAdapter()],
@@ -40,17 +44,19 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class FilterReservationComponent {
 
-  private _store = inject(Store<AppState>);
-  private _fb = inject(FormBuilder);
+  private readonly _store = inject(Store<AppState>);
+  private readonly _fb = inject(FormBuilder);
 
   public hotelList: IHotel[] = [];
   public executeSearch = false;
   public minDate = new Date();
+  public citiesList = CITIES_LIST;
   public form = this._fb.group<IFilterForm>(
     {
       startDate: this._fb.control(null, { validators: Validators.required }),
       finishDate: this._fb.control(null, { validators: Validators.required }),
-      numberPeople: this._fb.control(null, { validators: Validators.required })
+      numberPeople: this._fb.control(null, { validators: Validators.required }),
+      cityId: this._fb.control(null, { validators: [Validators.required] })
     }
   );
 
@@ -60,7 +66,16 @@ export class FilterReservationComponent {
 
     this.hotelList = [];
     this.executeSearch = true;
-    const hotelAvailableList$ = this._store.pipe(select(getHotelAvailableFilter(this.form.controls.startDate.value!, this.form.controls.finishDate.value!)));
+
+    const props: IFilterProps = {
+      startDate: this.form.controls.startDate.value!,
+      finishDate: this.form.controls.finishDate.value!,
+      cityId: this.form.controls.cityId.value!,
+      numberPeople: this.form.controls.numberPeople.value!
+    };
+    const hotelAvailableList$ = this._store.pipe(
+      select(getHotelAvailableFilter(props))
+    );
     const subscription$ = new Subscription();
 
     subscription$.add(

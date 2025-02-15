@@ -6,6 +6,7 @@ export interface IFilterForm {
   startDate: FormControl<Date | null>;
   finishDate: FormControl<Date | null>;
   numberPeople: FormControl<number | null>;
+  cityId: FormControl<number | null>;
 }
 
 export interface IReservationCreateForm {

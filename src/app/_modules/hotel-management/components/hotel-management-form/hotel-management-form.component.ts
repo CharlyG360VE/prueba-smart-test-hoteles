@@ -1,4 +1,5 @@
-import { eMagicNumbers } from '@/_enums/magic-numbers.enum';
+import { CITIES_LIST } from '@/_data/cities.data';
+import { generateUuid } from '@/_helpers/common.helper';
 import { IHotel } from '@/_ngrx/_interfaces/hotel-reducer.interface';
 import { getHotelById } from '@/_ngrx/_selectors/hotel-reducer.selector';
 import { AppState } from '@/_ngrx/app.reducer';
@@ -10,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { select, Store } from '@ngrx/store';
 import { first, Subscription } from 'rxjs';
 
@@ -21,6 +23,7 @@ import { first, Subscription } from 'rxjs';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule
   ],
   templateUrl: './hotel-management-form.component.html',
   styleUrl: './hotel-management-form.component.scss'
@@ -33,7 +36,8 @@ export class HotelManagementFormComponent {
   private readonly _dialogSvc = inject(DialogService);
   private _hotelData?: IHotel;
 
-  public id = eMagicNumbers.N_0;
+  public id = '';
+  public citiesList = CITIES_LIST;
   public form = this._fb.group<IHotelManagementForm>(
     {
       name: this._fb.control(
@@ -41,12 +45,18 @@ export class HotelManagementFormComponent {
         {
           validators: [Validators.required, Validators.minLength(1)]
         }
+      ),
+      cityId: this._fb.control(
+        null,
+        {
+          validators: [Validators.required]
+        }
       )
     }
   )
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private readonly data: number,
+    @Inject(MAT_DIALOG_DATA) private readonly data: string,
     private readonly _dialogRef: MatDialogRef<HotelManagementFormComponent>) { }
 
   ngOnInit() {
@@ -63,9 +73,11 @@ export class HotelManagementFormComponent {
       return;
 
     const PAYLOAD: IHotel = {
-      id: this.id === 0 ? Math.round(Math.random() * 1000000) : this.id,
+      id: this.id.length > 0 ? this.id : generateUuid(),
       name: this.form.controls.name.value!,
       active: this._hotelData ? this._hotelData.active : true,
+      cityId: this.form.controls.cityId.value!,
+      cityName: this.citiesList.find(city => city.id === this.form.controls.cityId.value)?.name ?? '',
       viewRooms: this._hotelData ? this._hotelData.viewRooms : false,
       rooms: this._hotelData ? this._hotelData.rooms : []
     };
@@ -75,7 +87,7 @@ export class HotelManagementFormComponent {
   }
 
   private getHotelById() {
-    if (this.id === 0)
+    if (this.id.length === 0)
       return;
 
     const getHotelById$ = this._store.pipe(select(getHotelById(this.id)));
@@ -92,7 +104,8 @@ export class HotelManagementFormComponent {
 
               this.form.setValue(
                 {
-                  name: this._hotelData?.name ?? null
+                  name: this._hotelData?.name ?? null,
+                  cityId: this._hotelData?.cityId ?? null
                 }
               );
             }

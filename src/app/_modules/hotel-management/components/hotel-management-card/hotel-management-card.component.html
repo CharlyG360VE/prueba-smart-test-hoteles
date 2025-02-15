@@ -8,6 +8,7 @@
       </div>
     
       <p class="dark-color"><span><strong>Activo: </strong></span>{{ hotel.active ? 'Si' : 'No' }}</p>
+      <p class="dark-color"><span><strong>Ciudad: </strong></span>{{ hotel.cityName }}</p>
       <p class="dark-color"><span><strong>Cantidad de habitaciones: </strong></span>{{ hotel.rooms.length }}</p>
     </mat-card-content>
   
@@ -41,11 +42,13 @@
           </h3>
         </div>
       
-        @for (room of hotel.rooms; let i = $index; track room.id) {
+        @for (room of hotel.rooms; let i = $index; track i) {
           <p class="dark-color"><span><strong>Activo: </strong></span>{{ room.active ? 'Si' : 'No' }}</p>
           <p class="dark-color"><span><strong>Tipo de habitación: </strong></span>{{ room.roomTypeName }}</p>
+          <p class="dark-color"><span><strong>Maximo de huespedes: </strong></span>{{ room.maxguest }}</p>
           <p class="dark-color"><span><strong>Precio: </strong></span>{{ room.price | currency: '$':'symbol-narrow':'.0-0' }}</p>
           <p class="dark-color"><span><strong>Impuesto: </strong></span>{{ room.tax }}%</p>
+          <p class="dark-color"><span><strong>Precio con impuestos: </strong></span>{{ room.priceWithTax | currency: '$':'symbol-narrow':'.0-0' }}</p>
         
           <mat-card-actions class="justify-center">
             @if (room.active) {

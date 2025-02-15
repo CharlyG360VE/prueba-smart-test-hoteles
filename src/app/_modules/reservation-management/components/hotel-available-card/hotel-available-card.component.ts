@@ -42,8 +42,8 @@ export class HotelAvailableCardComponent {
   @Input({ required: true }) startDate!: Date;
   @Input({ required: true }) finishDate!: Date;
 
-  private _store = inject(Store<AppState>);
-  private _router = inject(Router);
+  private readonly _store = inject(Store<AppState>);
+  private readonly _router = inject(Router);
 
   public hotelTemp?: IHotel;
 
@@ -51,11 +51,11 @@ export class HotelAvailableCardComponent {
     this.hotelTemp = JSON.parse(JSON.stringify(this.hotel));
   }
 
-  public viewHotelRooms(hotelId: number, viewRooms: boolean) {
+  public viewHotelRooms(hotelId: string, viewRooms: boolean) {
     this._store.dispatch(viewHotelRooms({ hotelId, viewRooms }));
   }
 
-  public reservationCreate(roomId: number) {
+  public reservationCreate(roomId: string) {
     localStorage.setItem(
       'reservationData',
       JSON.stringify(

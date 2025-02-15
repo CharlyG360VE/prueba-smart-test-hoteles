@@ -3,8 +3,8 @@ export interface IReservationInitialState {
 }
 
 export interface IReservation {
-  hotelId: number;
-  roomId: number;
+  hotelId: string;
+  roomId: string;
   dateEntered: Date;
   departureDate: Date;
   guest: IGuest[];
@@ -26,4 +26,11 @@ export interface IEmergencyContact {
   firstName: string;
   lastName: string;
   contactNumber: number;
+}
+
+export interface IFilterProps {
+  startDate: Date;
+  finishDate: Date;
+  cityId: number;
+  numberPeople: number;
 }

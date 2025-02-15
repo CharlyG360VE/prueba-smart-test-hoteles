@@ -19,7 +19,7 @@
   }
   
   <div class="d-flex justify-center">
-    @for (hotel of hotelList; track hotel.id) {
+    @for (hotel of hotelList; track $index) {
       <app-hotel-management-card  [hotel]="hotel"
                                   (onEditHotel)="handlerHotelEdit($event)"
                                   (onEditHotelRoom)="handlerHotelRoomEdit($event)">

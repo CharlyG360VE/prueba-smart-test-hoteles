@@ -8,17 +8,22 @@ export const getHotelList = createSelector(
   (state: IHotelInitialState) => state.hotels
 );
 
-export const getRoomListByHotelId = (hotelId: number) => createSelector(
+export const getHotelListByCityId = (cityId: number) => createSelector(
+  getHotelReducerState,
+  (state: IHotelInitialState) => state.hotels.filter(hotel => hotel.cityId === cityId )
+)
+
+export const getRoomListByHotelId = (hotelId: string) => createSelector(
   getHotelReducerState,
   (state: IHotelInitialState) => state.hotels.find(hotel => hotel.id === hotelId)?.rooms
 );
 
-export const getHotelById = (hotelId: number) => createSelector(
+export const getHotelById = (hotelId: string) => createSelector(
   getHotelReducerState,
   (state: IHotelInitialState) => state.hotels.find(hotel => hotel.id === hotelId)
 );
 
-export const getRoomById = (hotelId: number, roomId: number) => createSelector(
+export const getRoomById = (hotelId: string, roomId: string) => createSelector(
   getHotelReducerState,
   (state: IHotelInitialState) => {
     const hotelFind = state.hotels.find(hotel => hotel.id === hotelId);

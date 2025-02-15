@@ -13,6 +13,7 @@ import { select, Store } from '@ngrx/store';
 import { first, Subscription } from 'rxjs';
 import { AppState } from '@/_ngrx/app.reducer';
 import { DialogService } from '@/_services/dialog.service';
+import { generateUuid } from '@/_helpers/common.helper';
 
 @Component({
   selector: 'app-room-form',
@@ -48,13 +49,13 @@ export class RoomFormComponent {
   );
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private readonly data: { hotelList: IHotel[]; hotelId: number; id: number; },
+    @Inject(MAT_DIALOG_DATA) private readonly data: { hotelList: IHotel[]; hotelId: string; id: string; },
     private readonly _dialogRef: MatDialogRef<RoomFormComponent>) { }
 
   ngOnInit() {
     this.hotelList = this.data.hotelList;
 
-    if (this.data.id > 0) {
+    if (this.data.id.length > 0) {
       this.isEdit = true;
 
       this.getRoomById();
@@ -69,11 +70,14 @@ export class RoomFormComponent {
     if (this.form.invalid)
       return;
 
+    const priceWithTaxCalculate = this.form.controls.price.value! * (this.form.controls.tax.value! / 100);
     const PAYLOAD: IRoom = {
-      id: this.data.id === 0 ? Math.round(Math.random() * 1000000) : this.data.id,
+      id: this.data.id.length > 0 ? this.data.id : generateUuid(),
       roomType: this.form.controls.roomType.value!,
-      roomTypeName: this.roomTypeList.find(x => x.id === this.form.controls.roomType.value)?.name!,
+      roomTypeName: this.roomTypeList.find(x => x.id === this.form.controls.roomType.value)?.name ?? '',
+      maxguest: this.roomTypeList.find(x => x.id === this.form.controls.roomType.value)?.maxguest ?? 0,
       price: this.form.controls.price.value!,
+      priceWithTax: this.form.controls.price.value! + priceWithTaxCalculate,
       tax: this.form.controls.tax.value!,
       active: true
     };
